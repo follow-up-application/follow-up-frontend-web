@@ -1,5 +1,4 @@
 import {
-  Activity,
   Bell,
   BookOpen,
   CalendarDays,
@@ -11,6 +10,7 @@ import {
   Megaphone,
   MessageSquare,
   School,
+  ShieldCheck,
   UserPlus,
   Users,
   UserRound,
@@ -57,12 +57,12 @@ export const NAV_BY_ROLE: Record<string, NavItem[]> = {
   ],
   administrador: [
     { label: 'Panel Principal', path: '/admin', icon: LayoutDashboard, end: true },
+    { label: 'Administradores', path: '/admin/administradores', icon: ShieldCheck },
     { label: 'Cargar Alumno', path: '/admin/alumnos/nuevo', icon: UserPlus },
     { label: 'Listado de Alumnos', path: '/admin/alumnos', icon: Users },
     { label: 'Cargar Docente', path: '/admin/docentes/nuevo', icon: School },
     { label: 'Listado de Docentes', path: '/admin/docentes', icon: School },
     { label: 'Cargar Curso / División', path: '/admin/cursos/nuevo', icon: GraduationCap },
     { label: 'Cargar Materia', path: '/admin/materias/nuevo', icon: BookOpen },
-    { label: 'Verificar API', path: '/admin/verificar-api', icon: Activity },
   ],
 };

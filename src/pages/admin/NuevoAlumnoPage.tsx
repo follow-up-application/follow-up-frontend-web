@@ -64,17 +64,12 @@ export default function NuevoAlumnoPage() {
   const [errores, setErrores] = useState<Errores>({});
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    getCursosDivisionTurno(controller.signal)
+    getCursosDivisionTurno()
       .then(setCursos)
-      .catch((err: unknown) => {
-        if (err instanceof DOMException && err.name === 'AbortError') return;
+      .catch(() => {
         setErrorCursos('No se pudieron cargar los cursos.');
       })
       .finally(() => setLoadingCursos(false));
-
-    return () => controller.abort();
   }, []);
 
   const limpiarDatosTutor = () => {
