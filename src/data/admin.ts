@@ -1,4 +1,4 @@
-import { BookOpen, GraduationCap, School, UserPlus, Users } from 'lucide-react';
+import { BookOpen, GraduationCap, School, ShieldCheck, UserPlus, Users } from 'lucide-react';
 
 export const GRADOS = Array.from({ length: 9 }, (_, i) => ({
   value: String(i + 1),
@@ -36,6 +36,14 @@ export const OPCIONES_PARENTESCO = [
 export const PALETA_AVATARES = ['#6750A4', '#B3261E', '#386A20', '#625B71', '#E65100'];
 
 export const MODULOS_ADMIN = [
+  {
+    id: '7',
+    titulo: 'Administradores',
+    descripcion: 'Gestionar altas, edición, detalle e inhabilitación de administradores.',
+    icon: ShieldCheck,
+    to: '/admin/administradores',
+    tone: 'primary' as const,
+  },
   {
     id: '1',
     titulo: 'Cargar Alumno',
