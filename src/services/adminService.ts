@@ -48,11 +48,6 @@ function normalizarAdmin(raw: AdminApiResponse): Admin {
 }
 
 export const adminService = {
-  async registerAdmin(payload: CreateAdminPayload): Promise<Admin> {
-    const response = await api.post<AdminApiResponse>('/admins/register', payload, { auth: false });
-    return normalizarAdmin(response);
-  },
-
   async getAdmins(): Promise<Admin[]> {
     const response = await api.get<AdminApiResponse[]>('/admins');
     return response.map(normalizarAdmin);

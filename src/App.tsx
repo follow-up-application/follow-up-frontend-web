@@ -9,7 +9,6 @@ const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
 const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'));
 const ValidarCodigoPage = lazy(() => import('@/pages/auth/ValidarCodigoPage'));
 const RecuperarPasswordPage = lazy(() => import('@/pages/auth/RecuperarPasswordPage'));
-const RegistroAdminPage = lazy(() => import('@/pages/auth/RegistroAdminPage'));
 
 const AdminDashboard = lazy(() => import('@/pages/admin/DashboardPage'));
 const AdminAdministradores = lazy(() => import('@/pages/admin/AdminListPage'));
@@ -69,7 +68,7 @@ export default function App() {
             <Route path="/recuperar-password" element={<RecuperarPasswordPage />} />
             <Route path="/validar-codigo" element={<ValidarCodigoPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/registro-admin" element={<RegistroAdminPage />} />
+            <Route path="/registro-admin" element={<Navigate to="/login" replace />} />
 
             <Route path="/admin" element={roleElement('administrador')}>
               <Route index element={<AdminDashboard />} />

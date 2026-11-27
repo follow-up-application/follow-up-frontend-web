@@ -122,12 +122,6 @@ export default function LoginPage() {
           fullWidth
           onClick={() => navigate('/validar-codigo')}
         />
-        <Link
-          to="/registro-admin"
-          className="block text-center text-xs font-medium text-secondary hover:text-primary hover:underline"
-        >
-          ¿Eres administrador institucional? Registrar nueva cuenta
-        </Link>
       </div>
     </AuthLayout>
   );
