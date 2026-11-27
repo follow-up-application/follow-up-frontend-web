@@ -73,11 +73,23 @@ export const adminService = {
     return normalizarAdmin(response);
   },
 
-  async toggleInhabilitarAdmin(id: string | number): Promise<{ id: string | number; activo: boolean }> {
+  async habilitarAdmin(id: string | number): Promise<void> {
+    await api.patch<void>(`/admins/${id}/habilitar`);
+  },
+
+  async inhabilitarAdmin(id: string | number): Promise<void> {
     await api.patch<void>(`/admins/${id}/inhabilitar`);
-    return {
-      id,
-      activo: false,
-    };
+  },
+
+  async toggleInhabilitarAdmin(
+    id: string | number,
+    actualmenteActivo: boolean,
+  ): Promise<{ id: string | number; activo: boolean }> {
+    if (actualmenteActivo) {
+      await api.patch<void>(`/admins/${id}/inhabilitar`);
+      return { id, activo: false };
+    }
+    await api.patch<void>(`/admins/${id}/habilitar`);
+    return { id, activo: true };
   },
 };

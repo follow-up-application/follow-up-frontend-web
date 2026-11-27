@@ -79,10 +79,10 @@ export default function AdminDetailModal({
                                 <span
                                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${admin.activo
                                         ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                        : 'bg-rose-50 text-rose-700 border-rose-200'
+                                        : 'bg-amber-50 text-amber-700 border-amber-200'
                                         }`}
                                 >
-                                    {admin.activo ? 'Activo' : 'Inhabilitado'}
+                                    {admin.activo ? 'Activo' : 'Pendiente / Inactivo'}
                                 </span>
                             </div>
                             <p className="text-sm font-medium text-primary mt-0.5">@{admin.username}</p>
@@ -133,7 +133,7 @@ export default function AdminDetailModal({
                         <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-2.5 text-xs text-amber-900">
                             <ShieldAlert className="size-4 shrink-0 text-amber-600 mt-0.5" />
                             <p>
-                                <strong>Cuenta inhabilitada:</strong> Este administrador no puede acceder al panel ni modificar registros.
+                                <strong>Cuenta pendiente o inhabilitada:</strong> Este administrador no puede acceder al panel ni modificar registros hasta que sea aprobado o habilitado.
                             </p>
                         </div>
                     )}
@@ -154,7 +154,7 @@ export default function AdminDetailModal({
                             </>
                         ) : (
                             <>
-                                <UserCheck className="size-3.5" /> Reactivar Cuenta
+                                <UserCheck className="size-3.5" /> Aprobar / Habilitar Cuenta
                             </>
                         )}
                     </button>

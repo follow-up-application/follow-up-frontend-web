@@ -1,14 +1,12 @@
-import { ArrowLeft, AtSign, Lock, ShieldCheck, User, UserPlus } from 'lucide-react';
+import { ArrowLeft, AtSign, Clock, Lock, ShieldCheck, User, UserPlus } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthLayout } from '@/components/layout/AuthLayout';
 import { Alert, Button, FormField, Input } from '@/components/ui';
 import { adminService } from '@/services/adminService';
 import { ApiError } from '@/services/apiClient';
 
 export default function RegistroAdminPage() {
-  const navigate = useNavigate();
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
@@ -16,12 +14,11 @@ export default function RegistroAdminPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [registrado, setRegistrado] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
 
     if (firstName.trim().length < 2 || lastName.trim().length < 2) {
       setError('Ingresa nombre y apellido válidos (mínimo 2 caracteres).');
@@ -52,10 +49,7 @@ export default function RegistroAdminPage() {
         password,
       });
 
-      setSuccess('Administrador registrado exitosamente. Redirigiendo al inicio de sesión...');
-      setTimeout(() => {
-        navigate('/login');
-      }, 1200);
+      setRegistrado(true);
     } catch (err) {
       setError(
         err instanceof ApiError
@@ -67,11 +61,32 @@ export default function RegistroAdminPage() {
     }
   };
 
+  if (registrado) {
+    return (
+      <AuthLayout subtitle="Alta institucional de Administrador">
+        <div className="card p-6 sm:p-8 text-center space-y-4">
+          <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-amber-50 text-amber-600 border border-amber-200">
+            <Clock className="size-6" aria-hidden />
+          </span>
+          <h2 className="text-xl font-bold text-neutral">Solicitud de Registro Enviada</h2>
+          <p className="text-sm text-secondary leading-relaxed">
+            Tu cuenta institucional fue registrada con el usuario <strong>@{username}</strong>.
+          </p>
+          <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 text-left">
+            Por seguridad institucional, la cuenta se encuentra <strong>pendiente de aprobación</strong>. Un administrador activo del establecimiento deberá habilitarla desde el panel antes de que puedas iniciar sesión.
+          </div>
+          <Link to="/login" className="block pt-2">
+            <Button title="Volver al inicio de sesión" fullWidth />
+          </Link>
+        </div>
+      </AuthLayout>
+    );
+  }
+
   return (
     <AuthLayout subtitle="Alta institucional de Administrador">
       <form onSubmit={handleSubmit} className="card p-6 sm:p-8" noValidate>
         {error ? <Alert variant="error" message={error} /> : null}
-        {success ? <Alert variant="success" message={success} /> : null}
 
         <div className="mb-5 flex items-center gap-3">
           <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary-light text-primary">
