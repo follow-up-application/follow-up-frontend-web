@@ -30,9 +30,25 @@ export async function buscarTutorPorDni(dni: string, signal?: AbortSignal): Prom
 }
 
 export async function crearAlumno(request: CreateAlumnoRequest): Promise<void> {
-  await api.post<void>('/alumnos', request);
+  await api.post<void>('/alumnos', {
+    first_name: request.firstName,
+    last_name: request.lastName,
+    dni: request.dni,
+    fecha_nacimiento: request.fechaNacimiento,
+    curso_division_turno_id: request.cursoDivisionTurnoId,
+    relationship: request.relationship,
+    otra_relacion: request.otraRelacion ?? null,
+    tutor_dni: request.tutorDni,
+    tutor_first_name: request.tutorFirstName ?? null,
+    tutor_last_name: request.tutorLastName ?? null,
+    tutor_telephone: request.tutorTelephone ?? null,
+  });
 }
 
 export async function crearCursoDivisionTurno(request: CreateCursoRequest): Promise<void> {
   await api.post<void>('/cursoDivisionTurno', request);
+}
+
+export async function inhabilitarAlumno(id: string | number): Promise<void> {
+  await api.patch<void>(`/alumnos/${id}/inhabilitar`);
 }

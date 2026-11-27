@@ -19,20 +19,15 @@ export default function AdminDashboardPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    getAdminEstadisticas(controller.signal)
+    getAdminEstadisticas()
       .then((data) => {
         setAlumnos(String(data.total_alumnos));
         setTutores(String(data.total_tutores));
         setError('');
       })
-      .catch((err: unknown) => {
-        if (err instanceof DOMException && err.name === 'AbortError') return;
+      .catch(() => {
         setError('No se pudieron cargar las estadísticas. Los valores pueden estar desactualizados.');
       });
-
-    return () => controller.abort();
   }, []);
 
   return (

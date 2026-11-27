@@ -1,8 +1,12 @@
 import { AlertCircle, Save, UserRound, X } from 'lucide-react';
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Alert, Button, FormField, Input, PageHeader, SelectInput } from '@/components/ui';
 import { DIVISIONES_DOCENTE, GRADOS, MATERIAS, TURNOS } from '@/data/admin';
+import { getCursosDivisionTurno } from '@/services/alumnoService';
+import { ApiError } from '@/services/apiClient';
+import { crearDocente } from '@/services/docenteService';
+import type { CursoDivisionTurno } from '@/types/alumno';
 import {
   esDniValido,
   esEmailValido,
@@ -33,8 +37,17 @@ export default function NuevoDocentePage() {
   const [grado, setGrado] = useState('');
   const [division, setDivision] = useState('');
   const [turno, setTurno] = useState('');
+
+  const [cursos, setCursos] = useState<CursoDivisionTurno[]>([]);
   const [saving, setSaving] = useState(false);
+  const [errorGeneral, setErrorGeneral] = useState('');
   const [errores, setErrores] = useState<Errores>({});
+
+  useEffect(() => {
+    getCursosDivisionTurno()
+      .then(setCursos)
+      .catch(() => {});
+  }, []);
 
   const faltantes: string[] = [];
   if (!apellido || !nombre || !dni || !email || !telefono || !materia || !grado || !division || !turno) {
@@ -46,8 +59,9 @@ export default function NuevoDocentePage() {
   if (email && !esEmailValido(email)) faltantes.push('El correo no tiene un formato válido');
   if (telefono && !esTelefonoValido(telefono)) faltantes.push('El teléfono tiene un formato inválido');
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    setErrorGeneral('');
 
     if (faltantes.length > 0) {
       setErrores({
@@ -66,10 +80,36 @@ export default function NuevoDocentePage() {
 
     setErrores({});
     setSaving(true);
-    window.setTimeout(() => {
-      setSaving(false);
+
+    try {
+      const cdtCoincidente = cursos.find(
+        (c) =>
+          String(c.curso) === String(grado) &&
+          c.division.toUpperCase() === division.toUpperCase() &&
+          c.turno.toLowerCase() === turno.toLowerCase(),
+      );
+      const cursoDivisionTurnoId = cdtCoincidente ? cdtCoincidente.id : (cursos[0]?.id ?? 1);
+      const fechaHoy = new Date().toISOString().split('T')[0];
+
+      await crearDocente({
+        first_name: nombre.trim(),
+        last_name: apellido.trim(),
+        dni: Number(dni.trim()),
+        telephone: telefono.trim(),
+        fecha_ingreso: fechaHoy,
+        curso_division_turno_id: cursoDivisionTurnoId,
+      });
+
       navigate('/admin/docentes', { replace: true });
-    }, 800);
+    } catch (err) {
+      setErrorGeneral(
+        err instanceof ApiError
+          ? err.message
+          : 'Ocurrió un error al guardar el docente en la base de datos.',
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -77,11 +117,13 @@ export default function NuevoDocentePage() {
       <PageHeader title="Cargar Docente" subtitle="Alta de docente y asignación de materia" />
 
       <form onSubmit={handleSubmit} className="card p-6 sm:p-8" noValidate>
+        {errorGeneral ? <Alert variant="error" message={errorGeneral} className="mb-4" /> : null}
+
         {faltantes.length > 0 ? (
           <Alert
             variant="info"
             message={faltantes.join('. ')}
-            className="items-start"
+            className="items-start mb-4"
           />
         ) : null}
 

@@ -1,9 +1,9 @@
-import { Search, Trash2, UserPlus, Users, X } from 'lucide-react';
+import { Loader2, Search, Trash2, UserPlus, Users, X } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Alert, Button, EmptyState, PageHeader } from '@/components/ui';
 import { PALETA_AVATARES } from '@/data/admin';
-import { getAlumnos } from '@/services/alumnoService';
+import { getAlumnos, inhabilitarAlumno } from '@/services/alumnoService';
 import type { AlumnoApi } from '@/types/alumno';
 import { iniciales } from '@/utils/session';
 
@@ -19,20 +19,15 @@ export default function AlumnosListPage() {
   const [confirmando, setConfirmando] = useState<AlumnoApi | null>(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    getAlumnos(controller.signal)
+    getAlumnos()
       .then((data) => {
         setAlumnos(data);
         setError('');
       })
-      .catch((err: unknown) => {
-        if (err instanceof DOMException && err.name === 'AbortError') return;
+      .catch(() => {
         setError('No se pudo cargar el listado de alumnos.');
       })
       .finally(() => setLoading(false));
-
-    return () => controller.abort();
   }, []);
 
   const filtrados = useMemo(() => {
@@ -47,9 +42,15 @@ export default function AlumnosListPage() {
     );
   }, [alumnos, busqueda]);
 
-  const eliminar = (alumno: AlumnoApi) => {
-    setAlumnos((prev) => prev.filter((item) => item.id !== alumno.id));
-    setConfirmando(null);
+  const eliminar = async (alumno: AlumnoApi) => {
+    try {
+      await inhabilitarAlumno(alumno.id);
+      setAlumnos((prev) => prev.filter((item) => item.id !== alumno.id));
+    } catch {
+      setError('No se pudo inhabilitar el alumno.');
+    } finally {
+      setConfirmando(null);
+    }
   };
 
   return (
@@ -92,7 +93,10 @@ export default function AlumnosListPage() {
       {error ? <Alert message={error} /> : null}
 
       {loading ? (
-        <p className="py-10 text-center text-sm text-secondary">Cargando alumnos...</p>
+        <div className="flex flex-col items-center justify-center p-12 text-center bg-white rounded-2xl border border-outline-variant/60 shadow-2xs">
+          <Loader2 className="size-6 animate-spin text-primary mb-2" aria-hidden />
+          <p className="text-sm font-semibold text-on-surface">Cargando...</p>
+        </div>
       ) : filtrados.length === 0 ? (
         <EmptyState
           icon={Users}
