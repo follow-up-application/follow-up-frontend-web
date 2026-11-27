@@ -18,7 +18,9 @@ const AdminNuevoAlumno = lazy(() => import('@/pages/admin/NuevoAlumnoPage'));
 const AdminDocentes = lazy(() => import('@/pages/admin/DocentesListPage'));
 const AdminNuevoDocente = lazy(() => import('@/pages/admin/NuevoDocentePage'));
 const AdminNuevoCurso = lazy(() => import('@/pages/admin/NuevoCursoPage'));
+const AdminMateriasList = lazy(() => import('@/pages/admin/MateriasListPage'));
 const AdminNuevaMateria = lazy(() => import('@/pages/admin/NuevaMateriaPage'));
+const AdminUsuariosList = lazy(() => import('@/pages/admin/UsuariosListPage'));
 const AdminVerificarApi = lazy(() => import('@/pages/admin/VerificarApiPage'));
 
 const DocenteDashboard = lazy(() => import('@/pages/docente/DashboardPage'));
@@ -74,11 +76,13 @@ export default function App() {
               <Route index element={<AdminDashboard />} />
               <Route path="administradores" element={<AdminAdministradores />} />
               <Route path="administradores/nuevo" element={<AdminNuevoAdministrador />} />
+              <Route path="usuarios" element={<AdminUsuariosList />} />
               <Route path="alumnos" element={<AdminAlumnos />} />
               <Route path="alumnos/nuevo" element={<AdminNuevoAlumno />} />
               <Route path="docentes" element={<AdminDocentes />} />
               <Route path="docentes/nuevo" element={<AdminNuevoDocente />} />
               <Route path="cursos/nuevo" element={<AdminNuevoCurso />} />
+              <Route path="materias" element={<AdminMateriasList />} />
               <Route path="materias/nuevo" element={<AdminNuevaMateria />} />
               <Route path="verificar-api" element={<AdminVerificarApi />} />
             </Route>

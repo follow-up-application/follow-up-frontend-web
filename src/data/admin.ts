@@ -45,6 +45,14 @@ export const MODULOS_ADMIN = [
     tone: 'primary' as const,
   },
   {
+    id: '8',
+    titulo: 'Directorio de Usuarios',
+    descripcion: 'Directorio general de todas las cuentas y roles institucionales.',
+    icon: Users,
+    to: '/admin/usuarios',
+    tone: 'primary' as const,
+  },
+  {
     id: '1',
     titulo: 'Cargar Alumno',
     descripcion: 'Registrar un alumno y vincularlo con su tutor.',
@@ -91,5 +99,13 @@ export const MODULOS_ADMIN = [
     icon: BookOpen,
     to: '/admin/materias/nuevo',
     tone: 'warning' as const,
+  },
+  {
+    id: '9',
+    titulo: 'Listado de Materias',
+    descripcion: 'Consultar asignaciones, cursos, turnos e inhabilitar materias.',
+    icon: BookOpen,
+    to: '/admin/materias',
+    tone: 'success' as const,
   },
 ];
