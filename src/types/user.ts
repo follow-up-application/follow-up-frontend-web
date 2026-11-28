@@ -33,3 +33,12 @@ export type UpdateUserRequest = {
 export type ChangePasswordRequest = {
   password: string;
 };
+
+export type RegisterUserRequest = {
+  first_name: string;
+  last_name: string;
+  dni?: number | null;
+  username?: string | null;
+  password: string;
+  role?: UserRole;
+};
