@@ -116,6 +116,15 @@ export default function LoginPage() {
       </form>
 
       <div className="mt-6 space-y-3">
+        <div className="text-center">
+          <Link
+            to="/registro-usuario"
+            className="text-xs font-semibold text-secondary hover:text-primary transition-colors"
+          >
+            ¿No tenés una cuenta? <span className="text-primary underline">Registrate acá</span>
+          </Link>
+        </div>
+
         <Button
           title="Soy Tutor"
           variant="outline"

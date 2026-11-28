@@ -5,7 +5,7 @@ export type SessionContextValue = {
   session: Session | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<Session>;
-  logout: () => void;
+  logout: () => Promise<void>;
   homeFor: (rol: UserRole | string) => string;
 };
 

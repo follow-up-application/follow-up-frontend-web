@@ -7,6 +7,7 @@ import type { UserRole } from '@/types/session';
 
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
 const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'));
+const RegistroUsuarioPage = lazy(() => import('@/pages/auth/RegistroUsuarioPage'));
 const ValidarCodigoPage = lazy(() => import('@/pages/auth/ValidarCodigoPage'));
 const RecuperarPasswordPage = lazy(() => import('@/pages/auth/RecuperarPasswordPage'));
 
@@ -71,6 +72,7 @@ export default function App() {
             <Route path="/recuperar-password" element={<RecuperarPasswordPage />} />
             <Route path="/validar-codigo" element={<ValidarCodigoPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/registro-usuario" element={<RegistroUsuarioPage />} />
             <Route path="/registro-admin" element={<Navigate to="/login" replace />} />
 
             <Route path="/admin" element={roleElement('administrador')}>

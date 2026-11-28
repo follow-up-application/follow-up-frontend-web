@@ -1,6 +1,6 @@
 import { SessionContext } from '@/context/session-context';
 import { ROLE_HOME } from '@/constants/app';
-import { login as loginRequest } from '@/services/authService';
+import { login as loginRequest, logout as logoutRequest } from '@/services/authService';
 import type { Session, UserRole } from '@/types/session';
 import { clearSession, getSession, saveSession } from '@/utils/session';
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -31,9 +31,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     return next;
   }, []);
 
-  const logout = useCallback(() => {
-    clearSession();
-    setSession(null);
+  const logout = useCallback(async () => {
+    try {
+      await logoutRequest();
+    } catch {
+      // Ignorar fallo de red o sesión ya invalidada en servidor
+    } finally {
+      clearSession();
+      setSession(null);
+    }
   }, []);
 
   const homeFor = useCallback((rol: UserRole | string) => ROLE_HOME[rol] ?? '/login', []);

@@ -27,6 +27,15 @@ export async function login(username: string, password: string): Promise<LoginRe
   }
 }
 
+/** Cierra sesión en el backend revocando el token Sanctum activo. */
+export async function logout(): Promise<void> {
+  try {
+    await api.post<void>('/logout');
+  } catch {
+    // Si la sesión ya expiró o el backend devuelve 401, permitimos que continúe la limpieza local.
+  }
+}
+
 export async function validarCodigo(codigo: string): Promise<AlumnoValidado> {
   try {
     return await api.get<AlumnoValidado>(`/tutores/validarCodigo/${encodeURIComponent(codigo.trim())}`, {

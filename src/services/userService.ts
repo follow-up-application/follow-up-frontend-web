@@ -1,5 +1,11 @@
 import { api } from './apiClient';
-import type { ApiUser, ChangePasswordRequest, MeUser, UpdateUserRequest } from '@/types/user';
+import type {
+  ApiUser,
+  ChangePasswordRequest,
+  MeUser,
+  RegisterUserRequest,
+  UpdateUserRequest,
+} from '@/types/user';
 
 /** GET /users — solo administrador. Listado de usuarios activos. */
 export async function getUsuarios(signal?: AbortSignal): Promise<ApiUser[]> {
@@ -42,4 +48,9 @@ export async function getMe(signal?: AbortSignal): Promise<MeUser> {
 /** PUT /password — usuario autenticado. Cambio de contraseña. */
 export async function cambiarPassword(password: string): Promise<{ message: string }> {
   return api.put<{ message: string }>('/password', { password } as ChangePasswordRequest);
+}
+
+/** POST /users — registro público de usuario base. */
+export async function registrarUsuario(request: RegisterUserRequest): Promise<ApiUser> {
+  return api.post<ApiUser>('/users', request, { auth: false });
 }
