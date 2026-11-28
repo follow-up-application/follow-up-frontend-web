@@ -9,7 +9,6 @@ const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
 const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'));
 const ValidarCodigoPage = lazy(() => import('@/pages/auth/ValidarCodigoPage'));
 const RecuperarPasswordPage = lazy(() => import('@/pages/auth/RecuperarPasswordPage'));
-const RegistroAdminPage = lazy(() => import('@/pages/auth/RegistroAdminPage'));
 
 const AdminDashboard = lazy(() => import('@/pages/admin/DashboardPage'));
 const AdminAdministradores = lazy(() => import('@/pages/admin/AdminListPage'));
@@ -19,7 +18,9 @@ const AdminNuevoAlumno = lazy(() => import('@/pages/admin/NuevoAlumnoPage'));
 const AdminDocentes = lazy(() => import('@/pages/admin/DocentesListPage'));
 const AdminNuevoDocente = lazy(() => import('@/pages/admin/NuevoDocentePage'));
 const AdminNuevoCurso = lazy(() => import('@/pages/admin/NuevoCursoPage'));
+const AdminMateriasList = lazy(() => import('@/pages/admin/MateriasListPage'));
 const AdminNuevaMateria = lazy(() => import('@/pages/admin/NuevaMateriaPage'));
+const AdminUsuariosList = lazy(() => import('@/pages/admin/UsuariosListPage'));
 const AdminVerificarApi = lazy(() => import('@/pages/admin/VerificarApiPage'));
 
 const DocenteDashboard = lazy(() => import('@/pages/docente/DashboardPage'));
@@ -69,17 +70,19 @@ export default function App() {
             <Route path="/recuperar-password" element={<RecuperarPasswordPage />} />
             <Route path="/validar-codigo" element={<ValidarCodigoPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/registro-admin" element={<RegistroAdminPage />} />
+            <Route path="/registro-admin" element={<Navigate to="/login" replace />} />
 
             <Route path="/admin" element={roleElement('administrador')}>
               <Route index element={<AdminDashboard />} />
               <Route path="administradores" element={<AdminAdministradores />} />
               <Route path="administradores/nuevo" element={<AdminNuevoAdministrador />} />
+              <Route path="usuarios" element={<AdminUsuariosList />} />
               <Route path="alumnos" element={<AdminAlumnos />} />
               <Route path="alumnos/nuevo" element={<AdminNuevoAlumno />} />
               <Route path="docentes" element={<AdminDocentes />} />
               <Route path="docentes/nuevo" element={<AdminNuevoDocente />} />
               <Route path="cursos/nuevo" element={<AdminNuevoCurso />} />
+              <Route path="materias" element={<AdminMateriasList />} />
               <Route path="materias/nuevo" element={<AdminNuevaMateria />} />
               <Route path="verificar-api" element={<AdminVerificarApi />} />
             </Route>

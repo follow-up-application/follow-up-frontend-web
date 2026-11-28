@@ -48,11 +48,6 @@ function normalizarAdmin(raw: AdminApiResponse): Admin {
 }
 
 export const adminService = {
-  async registerAdmin(payload: CreateAdminPayload): Promise<Admin> {
-    const response = await api.post<AdminApiResponse>('/admins/register', payload, { auth: false });
-    return normalizarAdmin(response);
-  },
-
   async getAdmins(): Promise<Admin[]> {
     const response = await api.get<AdminApiResponse[]>('/admins');
     return response.map(normalizarAdmin);
@@ -73,11 +68,23 @@ export const adminService = {
     return normalizarAdmin(response);
   },
 
-  async toggleInhabilitarAdmin(id: string | number): Promise<{ id: string | number; activo: boolean }> {
+  async habilitarAdmin(id: string | number): Promise<void> {
+    await api.patch<void>(`/admins/${id}/habilitar`);
+  },
+
+  async inhabilitarAdmin(id: string | number): Promise<void> {
     await api.patch<void>(`/admins/${id}/inhabilitar`);
-    return {
-      id,
-      activo: false,
-    };
+  },
+
+  async toggleInhabilitarAdmin(
+    id: string | number,
+    actualmenteActivo: boolean,
+  ): Promise<{ id: string | number; activo: boolean }> {
+    if (actualmenteActivo) {
+      await api.patch<void>(`/admins/${id}/inhabilitar`);
+      return { id, activo: false };
+    }
+    await api.patch<void>(`/admins/${id}/habilitar`);
+    return { id, activo: true };
   },
 };

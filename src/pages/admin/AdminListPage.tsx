@@ -82,8 +82,8 @@ export default function AdminsListPage() {
 
     const handleToggleInhabilitar = async (admin: Admin) => {
         try {
-            await adminService.toggleInhabilitarAdmin(admin.id);
-            const updated: Admin = { ...admin, activo: !admin.activo };
+            const res = await adminService.toggleInhabilitarAdmin(admin.id, admin.activo);
+            const updated: Admin = { ...admin, activo: res.activo };
             setAdmins((prev) => prev.map((a) => (a.id === admin.id ? updated : a)));
             if (adminSeleccionado && adminSeleccionado.id === admin.id) {
                 setAdminSeleccionado(updated);
@@ -317,10 +317,10 @@ export default function AdminsListPage() {
                                             <span
                                                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${admin.activo
                                                     ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                                    : 'bg-rose-50 text-rose-700 border-rose-200'
+                                                    : 'bg-amber-50 text-amber-700 border-amber-200'
                                                     }`}
                                             >
-                                                {admin.activo ? 'Activo' : 'Inhabilitado'}
+                                                {admin.activo ? 'Activo' : 'Pendiente / Inactivo'}
                                             </span>
                                         </td>
 
@@ -357,8 +357,8 @@ export default function AdminsListPage() {
                                                         ? 'text-on-surface-variant hover:text-rose-600 hover:bg-rose-50'
                                                         : 'text-on-surface-variant hover:text-emerald-600 hover:bg-emerald-50'
                                                         }`}
-                                                    title={admin.activo ? 'Inhabilitar administrador' : 'Reactivar administrador'}
-                                                    aria-label={admin.activo ? 'Inhabilitar' : 'Reactivar'}
+                                                    title={admin.activo ? 'Inhabilitar administrador' : 'Aprobar / Habilitar cuenta'}
+                                                    aria-label={admin.activo ? 'Inhabilitar' : 'Aprobar cuenta'}
                                                 >
                                                     {admin.activo ? (
                                                         <UserX className="size-4" />
@@ -397,10 +397,10 @@ export default function AdminsListPage() {
                                     <span
                                         className={`inline-flex items-center px-2 py-0.5 rounded-full text-2xs font-medium border ${admin.activo
                                             ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                            : 'bg-rose-50 text-rose-700 border-rose-200'
+                                            : 'bg-amber-50 text-amber-700 border-amber-200'
                                             }`}
                                     >
-                                        {admin.activo ? 'Activo' : 'Inactivo'}
+                                        {admin.activo ? 'Activo' : 'Pendiente / Inactivo'}
                                     </span>
                                 </div>
 
@@ -439,7 +439,7 @@ export default function AdminsListPage() {
                                             ? 'text-rose-600 hover:bg-rose-50'
                                             : 'text-emerald-600 hover:bg-emerald-50'
                                             }`}
-                                        title={admin.activo ? 'Inhabilitar' : 'Reactivar'}
+                                        title={admin.activo ? 'Inhabilitar cuenta' : 'Aprobar / Habilitar cuenta'}
                                     >
                                         {admin.activo ? <UserX className="size-3.5" /> : <UserCheck className="size-3.5" />}
                                     </button>
