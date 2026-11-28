@@ -66,5 +66,6 @@ export const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { label: 'Cargar Curso / División', path: '/admin/cursos/nuevo', icon: GraduationCap },
     { label: 'Cargar Materia', path: '/admin/materias/nuevo', icon: BookOpen },
     { label: 'Listado de Materias', path: '/admin/materias', icon: BookOpen },
+    { label: 'Inscripciones', path: '/admin/inscripciones', icon: ClipboardCheck },
   ],
 };
