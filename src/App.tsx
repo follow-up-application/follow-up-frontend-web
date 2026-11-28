@@ -20,6 +20,7 @@ const AdminNuevoDocente = lazy(() => import('@/pages/admin/NuevoDocentePage'));
 const AdminNuevoCurso = lazy(() => import('@/pages/admin/NuevoCursoPage'));
 const AdminMateriasList = lazy(() => import('@/pages/admin/MateriasListPage'));
 const AdminNuevaMateria = lazy(() => import('@/pages/admin/NuevaMateriaPage'));
+const AdminInscripcionesList = lazy(() => import('@/pages/admin/InscripcionesListPage'));
 const AdminUsuariosList = lazy(() => import('@/pages/admin/UsuariosListPage'));
 const AdminVerificarApi = lazy(() => import('@/pages/admin/VerificarApiPage'));
 
@@ -84,6 +85,7 @@ export default function App() {
               <Route path="cursos/nuevo" element={<AdminNuevoCurso />} />
               <Route path="materias" element={<AdminMateriasList />} />
               <Route path="materias/nuevo" element={<AdminNuevaMateria />} />
+              <Route path="inscripciones" element={<AdminInscripcionesList />} />
               <Route path="verificar-api" element={<AdminVerificarApi />} />
             </Route>
 

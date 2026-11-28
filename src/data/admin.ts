@@ -1,4 +1,4 @@
-import { BookOpen, GraduationCap, School, ShieldCheck, UserPlus, Users } from 'lucide-react';
+import { BookOpen, ClipboardCheck, GraduationCap, School, ShieldCheck, UserPlus, Users } from 'lucide-react';
 
 export const GRADOS = Array.from({ length: 9 }, (_, i) => ({
   value: String(i + 1),
@@ -107,5 +107,13 @@ export const MODULOS_ADMIN = [
     icon: BookOpen,
     to: '/admin/materias',
     tone: 'success' as const,
+  },
+  {
+    id: '10',
+    titulo: 'Inscripciones',
+    descripcion: 'Supervisar, aprobar y gestionar las solicitudes de inscripción a materias.',
+    icon: ClipboardCheck,
+    to: '/admin/inscripciones',
+    tone: 'primary' as const,
   },
 ];
